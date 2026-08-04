@@ -2,7 +2,7 @@
 <html lang="fr" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Scrub Haus | Nettoyage Professionnel</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -228,44 +228,61 @@
 
         footer { padding: 3rem 5%; text-align: center; font-weight: 700; text-transform: uppercase; background: rgba(0,0,0,0.9); color: #FFFFFF; backdrop-filter: blur(10px); }
 
-        /* Safari iOS Centering & Compaction Fixes */
+        /* Safari iOS Centering, Compaction & Landscape Fixes */
         @media (max-width: 768px) {
             .grid-2x2 { grid-template-columns: 1fr; }
             
+            /* Disable top-bar to conserve vertical viewport space */
             .top-bar { display: none; }
             
+            /* Force vertical stacking, fix landscape detachment, clear iOS safe areas */
             header { 
                 top: 0; 
                 left: 0;
-                right: 0;
-                width: auto !important; 
-                padding: 0.8rem 5%;
-                margin: 0 auto;
+                width: 100% !important; 
+                padding: max(0.8rem, env(safe-area-inset-top)) 5% 0.8rem;
                 box-sizing: border-box;
-                justify-content: space-between;
+                flex-direction: column !important; /* Stacks elements to prevent clutter */
+                justify-content: center;
                 align-items: center;
+                gap: 0.8rem;
                 background: var(--glass-bg);
                 backdrop-filter: blur(15px);
                 -webkit-backdrop-filter: blur(15px);
                 border-bottom: 1px solid var(--glass-border);
-                flex-direction: row !important;
+                /* Remove GPU transform on mobile to fix iOS landscape scroll detachment */
+                transform: none !important; 
+                -webkit-transform: none !important;
             }
             
-            .logo-img { height: 60px; }
+            /* Center the logo on its axis */
+            .logo-container {
+                justify-content: center;
+                width: 100%;
+                margin: 0;
+            }
+            
+            .logo-img { height: 50px; }
             .logo-title { font-size: 1.2rem; }
             .logo-sub { font-size: 0.5rem; }
             
+            /* Center and evenly distribute control buttons below the logo */
             .controls { 
                 display: flex;
-                flex-wrap: nowrap;
-                justify-content: flex-end;
+                flex-wrap: wrap;
+                justify-content: center;
                 align-items: center;
-                gap: 0.25rem; 
-                width: auto;
+                gap: 0.5rem; 
+                width: 100%;
             }
+            
             .toggle-btn { min-height: 36px; padding: 0 0.5rem; font-size: 0.8rem; }
             .btn-red { min-height: 36px; padding: 0 1rem; font-size: 0.8rem; }
             
+            /* Adjust body padding so stacked header does not cover the first section */
+            body { padding-top: 130px; }
+            
+            /* Mobile Review Layout Adjustments */
             .review-layout { flex-direction: column; gap: 0; }
             .review-image-block { display: none; }
             .review-form { margin: 0 auto; width: 100%; }
@@ -409,7 +426,7 @@
         <div class="faq-container">
             <div class="faq-item">
                 <button class="faq-question" data-i18n="faq1Q">Fournissez-vous les produits de nettoyage ? <span style="font-size: 1.5rem;">+</span></button>
-                <div class="faq-answer"><p data-i18n="faq1A">Oui, nous apportons tout le matériel  et nos propres produits professionnels.</p></div>
+                <div class="faq-answer"><p data-i18n="faq1A">Oui, nous apportons tout le matériel et nos propres produits professionnels.</p></div>
             </div>
             <div class="faq-item">
                 <button class="faq-question" data-i18n="faq2Q">Comment garantissez-vous la qualité ? <span style="font-size: 1.5rem;">+</span></button>
