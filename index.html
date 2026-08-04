@@ -42,7 +42,11 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); }
         *:not(.shape):not(.loader-shape) { border-radius: 0 !important; }
         
-        html { overflow-x: hidden; }
+        /* Fixed scroll context for iOS Safari */
+        html, body { 
+            overflow-x: clip; 
+            width: 100%;
+        }
 
         body { 
             background-color: var(--bg-primary);
@@ -106,6 +110,7 @@
         .social-links svg { width: 20px; height: 20px; fill: #FFFFFF; transition: transform 0.3s, fill 0.3s; }
         .social-links a:hover svg { fill: var(--logo-yellow); transform: scale(1.2); }
 
+        /* Hardware Accelerated & Width Corrected Header */
         header { 
             display: flex !important; 
             flex-direction: row !important; 
@@ -119,8 +124,10 @@
             top: 40px; 
             left: 0;
             z-index: 1000; 
-            width: 100vw;
-            transition: top 0.3s ease, background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
+            width: 100%; 
+            -webkit-transform: translate3d(0, 0, 0); 
+            transform: translate3d(0, 0, 0);
+            transition: top 0.3s ease, background 0.3s ease, border-color 0.3s ease;
         }
 
         header.header-scrolled {
@@ -205,7 +212,6 @@
         .faq-item.active .faq-answer { max-height: 500px; border-top: 1px solid var(--glass-border); padding-top: 1.5rem; }
         .faq-item.active .faq-question { color: var(--logo-blue); }
 
-        /* Dual-Axis Review Layout */
         .review-layout { display: flex; flex-direction: row; align-items: stretch; justify-content: center; gap: 3rem; max-width: 1200px; margin: 0 auto; width: 100%; }
         .review-image-block { flex: 1; min-height: 100%; background-image: url('assets/review-visual.webp'); background-size: cover; background-position: center; border: 1px solid var(--glass-border); box-shadow: 0 8px 32px rgba(0,0,0,0.05); display: block; }
         .review-form { flex: 1; max-width: 600px; margin: 0; display: grid; gap: 1rem; background: var(--glass-bg); padding: 2rem; backdrop-filter: blur(10px); border: 1px solid var(--glass-border); box-shadow: 0 8px 32px rgba(0,0,0,0.05); }
@@ -222,12 +228,44 @@
 
         footer { padding: 3rem 5%; text-align: center; font-weight: 700; text-transform: uppercase; background: rgba(0,0,0,0.9); color: #FFFFFF; backdrop-filter: blur(10px); }
 
-        /* Mobile Breakpoint Overrides */
+        /* Safari iOS Centering & Compaction Fixes */
         @media (max-width: 768px) {
             .grid-2x2 { grid-template-columns: 1fr; }
-            header { flex-direction: column !important; gap: 1.5rem; margin-bottom: 1rem; padding-top: 2rem; }
-            .top-bar { flex-direction: column; gap: 1rem; text-align: center; }
-            .controls { flex-wrap: wrap; justify-content: center; width: 100%; }
+            
+            .top-bar { display: none; }
+            
+            header { 
+                top: 0; 
+                left: 0;
+                right: 0;
+                width: auto !important; 
+                padding: 0.8rem 5%;
+                margin: 0 auto;
+                box-sizing: border-box;
+                justify-content: space-between;
+                align-items: center;
+                background: var(--glass-bg);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                border-bottom: 1px solid var(--glass-border);
+                flex-direction: row !important;
+            }
+            
+            .logo-img { height: 60px; }
+            .logo-title { font-size: 1.2rem; }
+            .logo-sub { font-size: 0.5rem; }
+            
+            .controls { 
+                display: flex;
+                flex-wrap: nowrap;
+                justify-content: flex-end;
+                align-items: center;
+                gap: 0.25rem; 
+                width: auto;
+            }
+            .toggle-btn { min-height: 36px; padding: 0 0.5rem; font-size: 0.8rem; }
+            .btn-red { min-height: 36px; padding: 0 1rem; font-size: 0.8rem; }
+            
             .review-layout { flex-direction: column; gap: 0; }
             .review-image-block { display: none; }
             .review-form { margin: 0 auto; width: 100%; }
@@ -467,7 +505,7 @@
                 eqTitle: "Notre Équipement Professionnel",
                 eq1: "Aspirateur puissant pour l'eau et la poussière.", eq2: "Nettoyeur vapeur pour éliminer les bactéries sans produits chimiques.", eq3: "Machine spéciale pour laver les tissus en profondeur.", eq4: "Nettoyeur haute pression pour les extérieurs.", eq5: "Nettoyeur de vitres pour un résultat sans traces.",
                 faqTitle: "Questions Fréquentes",
-                faq1Q: "Fournissez-vous les produits de nettoyage ?", faq1A: "Oui, nous apportons tout le matériel Kärcher et nos propres produits professionnels.",
+                faq1Q: "Fournissez-vous les produits de nettoyage ?", faq1A: "Oui, nous apportons tout le matériel et nos propres produits professionnels.",
                 faq2Q: "Comment garantissez-vous la qualité ?", faq2A: "Nos équipes suivent une liste de tâches stricte pour chaque pièce. Une vérification est faite avant leur départ.",
                 faq4Q: "Lavez-vous les vêtements à la main ?", faq4A: "Non, nous ne lavons pas à la main. Nous proposons le lavage en machine comme service payant (500 DZD/cycle, 2 cycles max), en utilisant votre machine et vos produits.",
                 reviewTitle: "Laissez-nous un avis", reviewSubmit: "Envoyer l'avis",
@@ -485,7 +523,7 @@
                 eqTitle: "معداتنا الاحترافية",
                 eq1: "أسپيراتور قوي للما والغبار.", eq2: "تنظيف بالبخار يقضي على البكتيريا بلا مواد كيميائية.", eq3: "ماشينة سبيسيال لغسيل الفراش بعمق.", eq4: "تنظيف بالضغط العالي للأماكن الخارجية.", eq5: "تنظيف الزاج لنتيجة بلا ليطراس.",
                 faqTitle: "أسئلة شائعة",
-                faq1Q: "تجيبو معاكم دوزان التنظيف؟", faq1A: "واه نجيبو كامل ماتريال  ومنتجاتنا الاحترافية الخاصة.",
+                faq1Q: "تجيبو معاكم دوزان التنظيف؟", faq1A: "واه نجيبو كامل ماتريال ومنتجاتنا الاحترافية الخاصة.",
                 faq2Q: "كيفاش تضمنو الجودة؟", faq2A: "الفريق تاعنا يتبع تشيكليست صارمة لكل شومبرة. ونديرو فيريفيكاسيون قبل ما نخرجو.",
                 faq4Q: "تغسلو القش بيديكم؟", faq4A: "لا، مانغسلوش باليد. نوفرولك غسيل بالماشينة كخدمة إضافية (500 دج/غسلة، ماكسيموم غسلتين)، نستعملو الماشينة والبرودوي تاعك.",
                 reviewTitle: "خلينا رأيك", reviewSubmit: "أبعث التقييم",
